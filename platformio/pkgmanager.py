@@ -103,11 +103,13 @@ class PackageManager(object):
         except (requests.exceptions.ConnectionError,
                 requests.exceptions.ChunkedEncodingError,
                 exception.FDUnrecognizedStatusCode, StopIteration):
+            print "Bintray is off-line"
             if not info['url'].startswith("http://dl.platformio.org"):
                 dlpath = self.download(
                     "http://dl.platformio.org/packages/%s" %
                     basename(info['url']), pkg_dir, info['sha1'])
 
+        print "dlpath", dlpath
         assert isfile(dlpath)
 
         if self.unpack(dlpath, pkg_dir):
